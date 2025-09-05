@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For Moksh</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:"Comic Sans MS",cursive;
+      background:linear-gradient(to bottom right,#ffe4ec,#ffe6f7);
+      height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;
+    }
+    .slide{
+      display:none;flex-direction:column;align-items:center;justify-content:center;
+      text-align:center;height:100%;width:100%;
+      position:absolute;top:0;left:0;padding:20px;
+    }
+    .active{display:flex;animation:fadeIn 1s}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+    h1{color:#e91e63;font-size:2.8rem;text-shadow:2px 2px 5px #ff99b9;margin-bottom:20px}
+    .heart{font-size:3rem;animation:beat 1s infinite;color:#ff4d6d}
+    @keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+    .message{
+      font-size:1.2rem;color:#4a148c;margin:15px;
+      background:#fff0f5;padding:15px 25px;border-radius:20px;
+      box-shadow:0 4px 8px rgba(0,0,0,.2);max-width:80%;
+    }
+
+    /* floating stickers */
+    .sticker{
+      position:absolute;width:40px;opacity:.85;animation:float 8s linear infinite;
+    }
+    @keyframes float{
+      0%{transform:translateY(100vh) rotate(0deg);opacity:0}
+      10%{opacity:1}90%{opacity:1}
+      100%{transform:translateY(-120px) rotate(360deg);opacity:0}
+    }
+
+    /* ribbon button */
+    .btn-box{
+      position:relative;display:inline-block;margin-top:30px;
+    }
+    .btn{
+      background:#e91e63;color:#fff;font-size:1.1rem;font-weight:bold;
+      padding:12px 28px;border:none;border-radius:15px;cursor:pointer;
+      box-shadow:0 4px 8px rgba(0,0,0,.3);
+    }
+    .btn-box::before,.btn-box::after{
+      content:"";position:absolute;width:12px;height:100%;
+      background:#c2185b;top:0;
+    }
+    .btn-box::before{left:-12px;border-radius:15px 0 0 15px}
+    .btn-box::after{right:-12px;border-radius:0 15px 15px 0}
+
+    /* popup */
+    .popup{
+      position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+      background:#fff;color:#4a148c;font-weight:bold;
+      padding:10px 20px;border-radius:15px;box-shadow:0 4px 8px rgba(0,0,0,.2);
+      opacity:0;transition:.3s;z-index:5;
+    }
+    .popup.show{opacity:1}
+
+    /* Slide2 Moksh */
+    .moksh{
+      font-size:3rem;color:#6a1b9a;font-weight:bold;
+      text-shadow:0 0 15px #ff80ab,0 0 25px #ff4081;
+      animation:glow 2s infinite alternate;
+    }
+    @keyframes glow{from{text-shadow:0 0 5px #ff80ab}to{text-shadow:0 0 25px #ff4081}}
+
+    /* bubble */
+    .bubble{
+      position:absolute;bottom:-50px;background:rgba(255,255,255,.6);
+      border-radius:50%;animation:rise 6s linear infinite;
+    }
+    @keyframes rise{
+      from{transform:translateY(0) scale(1);opacity:1}
+      to{transform:translateY(-110vh) scale(1.5);opacity:0}
+    }
+
+    /* Slide3 */
+    .quote{
+      font-size:1.5rem;color:#880e4f;background:#fff0f5;padding:20px 30px;
+      border-radius:25px;box-shadow:0 6px 12px rgba(0,0,0,.2);max-width:80%;
+      animation:floatQuote 3s ease-in-out infinite alternate;
+    }
+    @keyframes floatQuote{from{transform:translateY(0)}to{transform:translateY(-10px)}}
+  </style>
+</head>
+<body>
+  <!-- Slide1 -->
+  <div class="slide active" id="slide1">
+    <h1>For My Man🐣</h1>
+    <div class="heart">❤</div>
+    <p class="message">
+      He’s my favorite person to talk to, to annoy, and to love.<br>
+      He makes every little thing feel magical — even just existing.
+    </p>
+    <div class="btn-box">
+      <button class="btn" onclick="nextSlide(2)">Next ➝</button>
+    </div>
+  </div>
+
+  <!-- Slide2 -->
+  <div class="slide" id="slide2">
+    <div class="moksh">My Hero❤️</div>
+    <p class="message">The name that glows in my heart forever 💫</p>
+    <div class="btn-box">
+      <button class="btn" onclick="nextSlide(3)">Next ➝</button>
+    </div>
+  </div>
+
+  <!-- Slide3 -->
+  <div class="slide" id="slide3">
+    <p class="quote">"You’re not just my today, you’re my every tomorrow. 🌸"</p>
+  </div>
+
+  <div class="popup" id="popup"></div>
+
+  <script>
+    const compliments=[
+      "He's the most handsome man I know.",
+      "His smile could solve world problems.",
+      "He makes me laugh harder than anyone else.",
+      "He makes every place feel like home.",
+      "He supports me even on my worst days.",
+      "He's effortlessly cool (and he knows it).",
+      "He's my safest place and my biggest adventure."
+    ];
+    const stickerImages=[
+      "https://cdn-icons-png.flaticon.com/512/2107/2107952.png",
+      "https://cdn-icons-png.flaticon.com/128/326/326369.png",
+ "https://cdn-icons-png.flaticon.com/128/276/276049.png",
+ "https://cdn-icons-png.flaticon.com/128/4568/4568748.png",
+ "https://cdn-icons-png.flaticon.com/128/4032/4032200.png",
+ "https://cdn-icons-png.flaticon.com/128/3769/3769084.png",
+ "https://cdn-icons-png.flaticon.com/512/326/326375.png",
+ "https://cdn-icons-png.flaticon.com/512/326/326298.png"
+
+
+     
+      ];
+    const popup=document.getElementById("popup");
+
+    function createSticker(){
+      const s=document.createElement("img");
+      s.src=stickerImages[Math.floor(Math.random()*stickerImages.length)];
+      s.className="sticker";
+      s.style.left=Math.random()*90+"%";
+      s.style.animationDuration=(6+Math.random()*4)+"s";
+      document.body.appendChild(s);
+      s.addEventListener("click",()=>{
+        const c=compliments[Math.floor(Math.random()*compliments.length)];
+        popup.textContent=c;popup.classList.add("show");
+        setTimeout(()=>popup.classList.remove("show"),2000);
+      });
+      setTimeout(()=>s.remove(),9000);
+    }
+    setInterval(createSticker,900);
+
+    function createBubble(){
+      const b=document.createElement("div");
+      b.className="bubble";
+      const size=10+Math.random()*30;
+      b.style.width=size+"px";b.style.height=size+"px";
+      b.style.left=Math.random()*100+"%";
+      b.style.animationDuration=4+Math.random()*4+"s";
+      document.getElementById("slide2").appendChild(b);
+      setTimeout(()=>b.remove(),8000);
+    }
+    setInterval(createBubble,800);
+
+    function nextSlide(n){
+      document.querySelectorAll(".slide").forEach(sl=>sl.classList.remove("active"));
+      document.getElementById("slide"+n).classList.add("active");
+    }
+  </script>
+</body>
+</html>
